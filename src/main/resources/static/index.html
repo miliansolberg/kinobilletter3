@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestill Kinobilletter</title>
+</head>
+
+<body>
+<h1>Bestilling av kinobilletter</h1>
+
+<label for="film">Velg film:</label>
+<select name="film" id="film">
+    <option value="velg">Velg film her</option>
+    <option value="Fight Club">Fight Club</option>
+    <option value="Parasite">Parasite</option>
+    <option value="The Game">The Game</option>
+</select>
+<label for="film" id="filmError"></label>
+
+<br /> <br />
+
+<label for="antall">Antall:</label>
+<input type="number" id="antall">
+<label for="antall" id="antallError"></label>
+<br /> <br />
+
+<label for="fornavn">Fornavn:</label>
+<input type="text" id="fornavn">
+<label for="antall" id="fornavnError"></label>
+<br />
+
+<label for="etternavn">Etternavn:</label>
+<input type="text" id="etternavn">
+<label for="antall" id="etternavnError"></label>
+<br />
+
+<label for="telefon">Telefonnr:</label>
+<input type="text" id="telefon">
+<label for="antall" id="telefonError"></label>
+<br />
+
+<label for="epost">Epost:</label>
+<input type="text" id="epost">
+<label for="antall" id="epostError"></label>
+<br /> <br />
+
+<button type="submit" id="kjop">Kjøp billett</button>
+
+<br /> <br />
+
+<h2>Alle billetter</h2>
+<label id="billetter"></label>
+<button type="submit" id="slett">Slett alle billettene</button>
+
+<script src="script.js"></script>
+</body>
+</html>
