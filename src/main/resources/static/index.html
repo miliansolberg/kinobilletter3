@@ -4,55 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Bestill Kinobilletter</title>
 </head>
 
 <body>
-<h1>Bestilling av kinobilletter</h1>
+<div class="container mt-5">
+    <h1 class="mb-4">Bestilling av kinobilletter</h1>
 
-<label for="film">Velg film:</label>
-<select name="film" id="film">
-    <option value="velg">Velg film her</option>
-    <option value="Fight Club">Fight Club</option>
-    <option value="Parasite">Parasite</option>
-    <option value="The Game">The Game</option>
-</select>
-<label for="film" id="filmError"></label>
+    <div class="form-group">
+        <label for="film">Velg film:</label>
+        <select name="film" id="film" class="form-control">
+            <option value="velg">Velg film her</option>
+            <option value="Fight Club">Fight Club</option>
+            <option value="Parasite">Parasite</option>
+            <option value="The Game">The Game</option>
+        </select>
+        <div id="filmError" class="invalid-feedback"></div>
+    </div>
 
-<br /> <br />
+    <div class="form-group">
+        <label for="antall">Antall:</label>
+        <input type="number" id="antall" class="form-control">
+        <div id="antallError" class="invalid-feedback"></div>
+    </div>
 
-<label for="antall">Antall:</label>
-<input type="number" id="antall">
-<label for="antall" id="antallError"></label>
-<br /> <br />
+    <div class="form-group">
+        <label for="fornavn">Fornavn:</label>
+        <input type="text" id="fornavn" class="form-control">
+        <div id="fornavnError" class="invalid-feedback"></div>
+    </div>
 
-<label for="fornavn">Fornavn:</label>
-<input type="text" id="fornavn">
-<label for="antall" id="fornavnError"></label>
-<br />
+    <div class="form-group">
+        <label for="etternavn">Etternavn:</label>
+        <input type="text" id="etternavn" class="form-control">
+        <div id="etternavnError" class="invalid-feedback"></div>
+    </div>
 
-<label for="etternavn">Etternavn:</label>
-<input type="text" id="etternavn">
-<label for="antall" id="etternavnError"></label>
-<br />
+    <div class="form-group">
+        <label for="telefon">Telefonnr:</label>
+        <input type="text" id="telefon" class="form-control">
+        <div id="telefonError" class="invalid-feedback"></div>
+    </div>
 
-<label for="telefon">Telefonnr:</label>
-<input type="text" id="telefon">
-<label for="antall" id="telefonError"></label>
-<br />
+    <div class="form-group">
+        <label for="epost">Epost:</label>
+        <input type="text" id="epost" class="form-control">
+        <div id="epostError" class="invalid-feedback"></div>
+    </div>
 
-<label for="epost">Epost:</label>
-<input type="text" id="epost">
-<label for="antall" id="epostError"></label>
-<br /> <br />
+    <button type="submit" id="kjop" class="btn btn-primary">Kjøp billett</button>
 
-<button type="submit" id="kjop">Kjøp billett</button>
-
-<br /> <br />
-
-<h2>Alle billetter</h2>
-<label id="billetter"></label>
-<button type="submit" id="slett">Slett alle billettene</button>
+    <h2 class="mt-5">Alle billetter</h2>
+    <div id="billetter"></div>
+    <button type="submit" id="slett" class="btn btn-danger mt-2">Slett alle billettene</button>
+</div>
 
 <script src="script.js"></script>
 </body>

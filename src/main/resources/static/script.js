@@ -1,7 +1,5 @@
-
-let billetter = [];
-
-document.getElementById("kjop").onclick = function leggTilBillett() {
+// Funksjon for å legge til billett og sende data til serveren
+document.getElementById("kjop").onclick = async function leggTilBillett() {
     let film = document.getElementById("film").value;
     let antall = document.getElementById("antall").value;
     let fornavn = document.getElementById("fornavn").value;
@@ -9,7 +7,8 @@ document.getElementById("kjop").onclick = function leggTilBillett() {
     let telefon = document.getElementById("telefon").value;
     let epost = document.getElementById("epost").value;
 
-    let isValid = true;
+    // Validering
+    let isValid = true; // Anta at data er gyldig til det motsatte er bevist
 
     const epostRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
     const tlfRegex = /^\d{3}[\s-]?\d{2}[\s-]?\d{3}$/;
@@ -65,47 +64,63 @@ document.getElementById("kjop").onclick = function leggTilBillett() {
         document.getElementById("epostError").innerHTML = "";
     }
 
-    if (!isValid){
-        return;
+    if(!isValid) {
+        return; // Avslutter funksjonen tidlig hvis data er ugyldig
     }
 
-    document.getElementById("film").value = "velg";
-    document.getElementById("antall").value = "";
-    document.getElementById("fornavn").value = "";
-    document.getElementById("etternavn").value = "";
-    document.getElementById("telefon").value = "";
-    document.getElementById("epost").value = "";
+    // Opprett billettobjekt basert på gyldige data
+    let billett = { film, antall, fornavn, etternavn, telefon, epost };
 
-    let billett = {
-        film: film,
-        antall: antall,
-        fornavn: fornavn,
-        etternavn: etternavn,
-        telefon: telefon,
-        epost: epost
-    };
+    // Send data til server med POST-forespørsel
+    try {
+        await fetch('http://localhost:8080/billetter', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(billett),
+        });
+        visBilletter(); // Oppdater visningen ved å hente oppdaterte billetter fra server
+    } catch(error) {
+        console.error("Feil ved sending av data til server:", error);
+    }
+};
 
-    billetter.push(billett);
-    visBilletter();
+// Funksjon for å hente og vise billetter fra server
+async function visBilletter() {
+    try {
+        const response = await fetch('http://localhost:8080/billetter');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const billetter = await response.json();
+
+        let table = "<table class='table'><thead><tr><th>Film</th><th>Antall</th><th>Fornavn</th><th>Etternavn</th><th>Telefon</th><th>Epost</th></tr></thead><tbody>";
+        if (Array.isArray(billetter)) {
+            billetter.forEach(billett => {
+                table += `<tr><td>${billett.film}</td><td>${billett.antall}</td><td>${billett.fornavn}</td><td>${billett.etternavn}</td><td>${billett.telefon}</td><td>${billett.epost}</td></tr>`;
+            });
+        } else {
+            console.error("Received data is not an array:", billetter);
+        }
+        table += "</tbody></table>";
+        document.getElementById("billetter").innerHTML = table;
+    } catch(error) {
+        console.error("Feil ved henting av billetter fra server:", error);
+    }
 }
 
-function visBilletter() {
-    let table = "<table><tr><th>Film</th><th>Antall</th><th>Fornavn</th><th>Etternavn</th><th>Telefon</th><th>Epost</th></tr>";
-    billetter.forEach(function (billett) {
-        table += "<tr>";
-        table += "<td>" + billett.film + "</td>";
-        table += "<td>" + billett.antall + "</td>";
-        table += "<td>" + billett.fornavn + "</td>";
-        table += "<td>" + billett.etternavn + "</td>";
-        table += "<td>" + billett.telefon + "</td>";
-        table += "<td>" + billett.epost + "</td>";
-        table += "</tr>";
-    });
-    table += "</table>";
-    document.getElementById("billetter").innerHTML = table;
-}
+// Funksjon for å slette alle billetter på server og oppdatere visningen
+document.getElementById("slett").onclick = async function slettAlt() {
+    try {
+        await fetch('http://localhost:8080/billetter', {
+            method: 'DELETE',
+        });
+        visBilletter(); // Oppdater visningen etter sletting
+    } catch(error) {
+        console.error("Feil ved sletting av billetter:", error);
+    }
+};
 
-document.getElementById("slett").onclick = function slettAlt(){
-    billetter = [];
-    document.getElementById("billetter").innerHTML = "";
-}
+// Initialiser visning av billetter ved innlasting av siden
+visBilletter();
